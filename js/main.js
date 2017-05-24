@@ -17,7 +17,7 @@ function collectTopStories(url) {
         .catch(e => console.log(e));
 }
 
-let reduceStories = (data, storyCount = 10) => {
+reduceStories = (data, storyCount = 10) => {
     let randomTopStories = [];
 
     return new Promise((resolve, reject) =>  {
