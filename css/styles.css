@@ -1,0 +1,22 @@
+.container {
+    margin-top: 30px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.flex-item {
+    background: #EEE;
+    padding: 5px;
+    width: 500px;
+    height: 250px;
+    margin-top: 10px;
+    text-align: center;
+    transition: width 0.7s ease-out;
+}
+
+.flex-item > a {
+    text-decoration: none;
+    color: blue;
+    text-decoration: underline;
+}
