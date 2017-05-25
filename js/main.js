@@ -46,41 +46,46 @@ let reduceStories = (data, storyNum) => {
 let generateStoryComponent = story => {
     let date = new Date(story.time*1000).toLocaleDateString();
 
-    $('.container').append(
-        `<div class='flex-box'>
-            <div class='card mdl-card mdl-shadow--2dp'>
-                <div class='mdl-card__title mdl-card--expand'>
-                    <h2 class='mdl-card__title-text'>${story.title}</h2>
+    // HTML for material cards showing article data.
+    let storyCard =
+        singleLineString`<div class='flex-box'>
+                <div class='card mdl-card mdl-shadow--2dp'>
+                    <div class='mdl-card__title mdl-card--expand'>
+                        <h2 class='mdl-card__title-text'>${story.title}</h2>
+                    </div>
+                    <div class='mdl-card__supporting-text'>
+                        <ul class='story-list-icon mdl-list'>
+                            <li class='mdl-list__item'>
+                                <div class='mdl-list__item-primary-content'>
+                                    <i class='material-icons mdl-list__item-icon'>account_circle</i>
+                                    ${story.authorId}
+                                </div>
+                                <div class='mdl-list__item-primary-content'>
+                                    <div id='tt1' class='material-icons mdl-list__item-icon'>whatshot</div>
+                                    <div class='mdl-tooltip' data-mdl-for='tt1'>Karma</div>
+                                    ${story.authorKarma}
+                                </div>
+                                
+                            </li>
+                            <li class='mdl-list__item'>
+                                <span class='mdl-list__item-primary-content'>
+                                    <i class='material-icons mdl-list__item-icon'>access_time</i>
+                                    ${date}
+                                </span>
+                                <span class='mdl-list__item-primary-content'>
+                                    <i class='material-icons mdl-list__item-icon'>star</i>
+                                    ${story.score}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class='mdl-card__actions mdl-card--border'>
+                        <a class='mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect' href='${story.url}'>View Full Article</a>
+                    </div>
                 </div>
-                <div class='mdl-card__supporting-text'>
-                    <ul class='story-list-icon mdl-list'>
-                        <li class='mdl-list__item'>
-                            <span class='mdl-list__item-primary-content'>
-                                <i class='material-icons mdl-list__item-icon'>account_circle</i>
-                                ${story.authorId}
-                            </span>
-                            <span class='mdl-list__item-primary-content'>
-                                <i class='material-icons mdl-list__item-icon'>whatshot</i>
-                                ${story.authorKarma}
-                            </span>
-                        </li>
-                        <li class='mdl-list__item'>
-                            <span class='mdl-list__item-primary-content'>
-                                <i class='material-icons mdl-list__item-icon'>access_time</i>
-                                ${date}
-                            </span>
-                            <span class='mdl-list__item-primary-content'>
-                                <i class='material-icons mdl-list__item-icon'>star</i>
-                                ${story.score}
-                            </span>
-                        </li>
-				    </ul>
-                </div>
-                <div class='mdl-card__actions mdl-card--border'>
-                    <a class='mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect' href='${story.url}'>View Full Article</a>
-                </div>
-            </div>
-	    </div>`)
+            </div>`;
+
+    $('.container').append(storyCard);
 };
 
 let buildStoryObj = (storyData, authorData) => {
@@ -99,4 +104,17 @@ function promiseSeries(list) {
     return list.reduce(function(pacc, fn) {
         return pacc = pacc.then(fn);
     }, p);
+}
+
+function singleLineString(strings, ...values) {
+    //Interweave strings with substitution vars first.
+    let output = '';
+    for (let i = 0; i < values.length; i++) {
+        output += strings[i] + values[i];
+    }
+    output += strings[values.length];
+
+    //Split on new lines
+    let lines = output.split(/(?:\r\n|\n|\r)/);
+    return lines.map(line => line.replace(/^\s+/gm, '')).join(' ').trim();
 }
