@@ -15,3 +15,8 @@ Control amount of stories with storyCount
                 - story is returned to promiseSeries
                 - .then calls generateStoryComponent which generates a component.
                     - component is rendered to the DOM using jquery append();
+                        - es6 template string used to build up html data
+                        - singleLineString
+                            - first combines the variables into the actual string data
+                            - split the existing strings on line breaks and/or returns
+                            - replace white space with '', join with ' ', and then trim.
